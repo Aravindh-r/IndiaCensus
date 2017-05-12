@@ -1,15 +1,15 @@
 module.exports=function(){
-var rl = require('readline').createInterface({
+let rl = require('readline').createInterface({
  input: require('fs').createReadStream('data/test.csv')
 });
-var fs = require('fs');
-var maleindex,stateindex,femaleindex;
+let fs = require('fs');
+let maleindex,stateindex,femaleindex;
 global.myarray = [];
 rl.on('line', function (line) {
   // console.log('Line from file:', line);
   global.myarray.push(line);
   header=line.split(",");
-  for(var i = 0; i < header.length; i++)
+  for(let i = 0; i < header.length; i++)
     if(header[i]=="Area Name")
       stateindex=i;
     else if(header[i]=="Educational level - Graduate & above - Males") 
@@ -20,12 +20,12 @@ rl.on('line', function (line) {
 
 rl.on('close', function () {
     // console.log(global.myarray);
-    var state=[];
-    var arr=[];
-    var male=[];
-    var female=[];
+    let state=[];
+    let arr=[];
+    let male=[];
+    let female=[];
 
-    for (var i = 0; i < global.myarray.length; i++) {
+    for (let i = 0; i < global.myarray.length; i++) {
       arr= (global.myarray[i]).split(',');
       state.push(arr[stateindex]);
 
@@ -33,13 +33,13 @@ rl.on('close', function () {
    // console.log(age);
    state=removeduplicate(state);
    state.splice(0,1);
-   for (var i = 0; i < state.length; i++) {
+   for (let i = 0; i < state.length; i++) {
     male.push(0);
     female.push(0);  }
-    for(var i in global.myarray)
+    for(let i in global.myarray)
     {
-      var temp=(global.myarray[i]).split(',');
-      for(var j in state)
+      let temp=(global.myarray[i]).split(',');
+      for(let j in state)
       {
         if(temp[stateindex]==state[j]){
           male[j]=parseInt(male[j])+parseInt(temp[maleindex]);
@@ -47,10 +47,10 @@ rl.on('close', function () {
         }
       }
     }
-    for(var i in global.myarray)
+    for(let i in global.myarray)
     {
-      var temp=(global.myarray[i]).split(',');
-      for(var j in state)
+      let temp=(global.myarray[i]).split(',');
+      for(let j in state)
       {
         if(temp[stateindex]==state[j]){
           female[j]=parseInt(female[j])+parseInt(temp[femaleindex]);
@@ -60,7 +60,7 @@ rl.on('close', function () {
     }
 
 
-   //  for(var i in male)
+   //  for(let i in male)
    //  {
    // // console.log(literate[i]);
    //    //obj[age
@@ -79,7 +79,7 @@ rl.on('close', function () {
   }
   console.log(obj);
 
-  var outPath = JSON.stringify(obj);
+  let outPath = JSON.stringify(obj);
   fs.writeFileSync('output/graduatevalue.json',outPath);
   console.log("Copied to JSON2 file");
   
@@ -90,8 +90,8 @@ rl.on('close', function () {
  });
 
 function removeduplicate(dupli) {
-  var arr = [];
-  for (var i=0; i< dupli.length; i++) {
+  let arr = [];
+  for (let i=0; i< dupli.length; i++) {
     if(arr.indexOf(dupli[i]) == -1) {
       arr.push(dupli[i]);
     }

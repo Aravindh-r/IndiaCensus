@@ -1,26 +1,26 @@
-var margin = {top: 20, right: 20, bottom: 300, left: 80},
+let margin = {top: 20, right: 20, bottom: 300, left: 80},
    width = 2500 - margin.left - margin.right,
    height = 1500 - margin.top - margin.bottom;
 
-   var x = d3.scale.ordinal()
+   let x = d3.scale.ordinal()
    .rangeRoundBands([0, width], .1);
 
-   var y = d3.scale.linear()
+   let y = d3.scale.linear()
    .rangeRound([height, 0]);
 
-   var color = d3.scale.ordinal()
+   let color = d3.scale.ordinal()
    .range(["#6C3483 ", "#134A62 ", "#7b6888 ", "#6b486b ", "#a05d56 ", "#d0743c ", "#ff8c00 "]);
 
-   var xAxis = d3.svg.axis()
+   let xAxis = d3.svg.axis()
    .scale(x)
    .orient("bottom");
 
-   var yAxis = d3.svg.axis()
+   let yAxis = d3.svg.axis()
    .scale(y)
    .orient("left")
    .tickFormat(d3.format(".2s"));
 
-   var svg = d3.select("body").append("svg")
+   let svg = d3.select("body").append("svg")
    .attr("width", width + margin.left + margin.right)
    .attr("height", height + margin.top + margin.bottom)
    .append("g")
@@ -30,13 +30,13 @@ var margin = {top: 20, right: 20, bottom: 300, left: 80},
    d3.json("../output/graduatevalue.json",  function( data) {
     color.domain(d3.keys(data[0]).filter(function(key) { return key !== "AreaName"; }));
     data.forEach(function(d) {
-      var y0 = 0;
+      let y0 = 0;
       d.Population = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
       d.total = d.Population[d.Population.length - 1].y1;
     });
 
     data.forEach(function(d) {
-      var y0 = 0;
+      let y0 = 0;
       d.theft = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
       d.total = d.theft[d.theft.length - 1].y1;
     });
@@ -63,7 +63,7 @@ var margin = {top: 20, right: 20, bottom: 300, left: 80},
     .call(yAxis);
  
 
-    var AreaName = svg.selectAll(".AreaName")
+    let AreaName = svg.selectAll(".AreaName")
     .data(data)
     .enter().append("g")
     .attr("class", "g")
@@ -77,7 +77,7 @@ var margin = {top: 20, right: 20, bottom: 300, left: 80},
     .attr("height", function(d) { return y(d.y0) - y(d.y1); })
     .style("fill", function(d) { return color(d.name); });
 
-    var legend = svg.selectAll(".legend")
+    let legend = svg.selectAll(".legend")
     .data(color.domain().slice().reverse())
     .enter().append("g")
     .attr("class", "legend")
